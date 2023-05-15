@@ -31,11 +31,14 @@ class HandleIPAddress { //######################################################
 
   static Future loopBackgroundIpAddressCheck() async {while(enableBackgroundIPAddressCheck){
     await Future.delayed(const Duration(seconds: 10));
-    examingIPAddress = await queryIpAddress;
-    if(examingIPAddress!.address != currentIPAddress!.address){
-      currentIPAddress =                            examingIPAddress;
-      DisplayState.ipAddressChangeNotifier.value =  currentIPAddress!.address;
+    try{
+      examingIPAddress = await queryIpAddress;
+      if(examingIPAddress!.address != currentIPAddress!.address){
+        currentIPAddress =                            examingIPAddress;
+        DisplayState.ipAddressChangeNotifier.value =  currentIPAddress!.address;
+      }
     }
+    catch(e) {continue;}
     DisplayState.counterInt.value++;
   }}
 }
